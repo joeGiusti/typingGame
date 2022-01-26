@@ -1,0 +1,254 @@
+Create a typing mem game
+
+
+
+
+____________________
+new things
+
+parse a number from a string
+Number("10")
+
+show scrollbar only when overflow happens
+overflow: auto;
+
+show scrollbar on left side
+direction: rtl
+
+call a function after set state has completed
+setIndexCount(indexCount + 1, ()=>{startInput()})
+
+____________________
+display a word from an array that increaces with keypress
+
+create array state
+const [array, setArray] = useState(["wordOne", "wordTwo"])
+
+display the first index
+{array[0]}
+
+display a variable index
+create a counter state variable
+display the array word at tha counter index 
+
+increment the counter when space bar is pressed
+function next(){
+    setCount(count+1)
+
+window.onKeyDown = function
+function kepPressed(e){
+    e.keyCode
+    switch(e.keyCode)
+        case 68:
+        next()
+        break
+
+
+__________
+When array is completed get user input
+
+create state variable that keeps track of game mode
+const [showInput, setShowInput] = useState(false)
+
+when counter goes over array length change game mode to input
+function next(){
+    setCount(count+1)
+    if(count > array.length){        
+        startInput()
+    
+function startInput(){
+
+    // Show the input field
+    setShowInput(true)
+    
+    // set the focus on the input field
+    document.getElementById("input").focus()
+
+__________
+When user types check input to the array
+
+<input onChange={checkInputFunction}
+
+function checkInputFunction(){
+    var inputArray =
+    document.getElementById("input").value
+    .split(" ")
+
+    // create a variable to hold the number of correct
+    var correct = 0
+    
+    // Compare each word
+    for(var i=0; i<inputArray.length; i++)
+        if(inputArray[i] === array[i])
+            correct++
+
+    setCorrect(correct)
+
+// display the correct state and array length in a div
+<div>{"input "+correct+" of "+ array[count]+" correctly"}</div>
+__________
+go back to read mode when number of enterd words is equal to array length
+
+in checkInputFunction
+if(inputArray.length == array.length)
+  startReading()
+
+function startReading(){
+    setCounter(0)
+    setShowInput(false)
+    createArray()
+}
+
+__________
+create a new array
+
+function createArray(){
+
+    // Create an array with a bunch of words in it
+    var wordsArray = "words".split(" ")
+
+    // Create a place to hold the new array of words to read
+    var tempWordArray = []
+    
+    // Put random words in it from the words array
+    for(var i=0; i < newLength; i++)
+      tempWordArray.push( 
+        wordsArray[
+        Mathf.floor( 
+        Math.random * newLength))]
+
+    // Put it in state
+    setArray( tempWordsArray )
+
+__________
+store multiple arrays in the array state so can ask about previous ones
+
+// Part 1: Array state defaults to an empty array
+
+// In create array make a 2d array with only one array in it
+var arrayHolder = []
+arrayHolder[0] = tempWordArray
+setArray(arrayHolder)
+
+// Display the word from the 2D array
+// In jsx return section add index square with 0
+{array[0][count]}
+
+// Compare the words from the 2D array
+// In checkInputFunctino add 2D index square with 0 in it
+if(array[0][i] === word)
+    correct++
+
+// Part 2: In create array, put new array in first index and put older arrays in subquent indicies 
+
+// Create add at head functino
+function addAtHead(wordArray){
+    
+    // Create a temp array to store the word arrays
+    var tempArray = []
+    
+    // Put the new word array in the first index
+    tempArray.push(wordArray)
+
+    // Put the other arrays in subiquent indicies with a foreach
+    array.foreach(subArray =>{
+        tempArray.push(subArray)
+    
+    // Put the 2d temp array in state
+    setArray(tempArray)
+
+
+// Part 3: create state that determines which array is active while inputing
+
+const[indexCount, setIndexCount] = useState(0)
+
+// In checkInput increment indexCount when input finishes
+
+// If indexCould goes above array length go back to reading mode
+
+
+
+
+__________
+ask user to input one back
+
+__________
+add to results display
+
+display time to read, time to type, total time
+display last few results
+display number of words correct, number of words correct in order
+
+__________
+user data
+
+menu to show time and accuracy
+chart with all data with dates and times
+login auth
+save data to cloud with login info
+__________
+variability
+
+vary the number of words in the array based on accuracy and speed
+auto read words at a speed based on accuracy
+
+__________
+styling
+
+
+__________
+Dev docket 1-21-2022
+
+_____
+done
+app asks for variable number of previous arrays
+done
+array is an array of arrays
+done
+add new word arrays at head of word arrays array
+done
+when asking for previous arrays ask for all of them in the 2d array
+ask for the number that is specified
+
+for some reason putting an array into state and then console.log the state says there is no array
+but the logging it any time after shows that there is
+seems like the state change is asyncronous
+Which is ok with me in this circumstance
+
+_____
+done
+hint hover
+shows the first word of the current list
+adds to a variable "showed hint"
+
+_____
+done
+keep track of accuracy
+put all of the results in an array
+display them in side menu
+
+add time
+
+persistant data in browser maybe
+save to db maybe
+show chart with multiple days
+
+
+_____
+settings
+
+done
+create hover settings menu 
+
+done
+adjust the length of array and number back it asks for based on input fields
+
+option to only look at current array
+set it on buttom press
+it does something
+
+option to allow auto adjust based on input time and accuracy
+set it on buttom press
+it does something
+
+save the settings for next time
