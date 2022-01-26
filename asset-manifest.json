@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/typingGame/static/css/main.881f2b40.css",
-    "main.js": "/typingGame/static/js/main.3941e9f8.js",
+    "main.js": "/typingGame/static/js/main.bd39d962.js",
     "static/js/787.af401105.chunk.js": "/typingGame/static/js/787.af401105.chunk.js",
     "static/media/gearicon80px.png": "/typingGame/static/media/gearicon80px.194f47f80276f08170c6.png",
     "static/media/logo.svg": "/typingGame/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
     "index.html": "/typingGame/index.html",
     "main.881f2b40.css.map": "/typingGame/static/css/main.881f2b40.css.map",
-    "main.3941e9f8.js.map": "/typingGame/static/js/main.3941e9f8.js.map",
+    "main.bd39d962.js.map": "/typingGame/static/js/main.bd39d962.js.map",
     "787.af401105.chunk.js.map": "/typingGame/static/js/787.af401105.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.881f2b40.css",
-    "static/js/main.3941e9f8.js"
+    "static/js/main.bd39d962.js"
   ]
 }
