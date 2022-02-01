@@ -2,6 +2,8 @@ import logo from './logo.svg';
 import './App.css';
 import { useState, useEffect } from 'react'
 import gear from './images/gearicon80px.png'
+import RandomStuff from './Components/RandomStuff';
+
 function App() {
     
   // The 2d array or word arrays
@@ -27,6 +29,9 @@ function App() {
   const [accuracyLog, setAccuracyLog] = useState(["Accuracy Log", "____________________"])
   const [itteration, setItteration] = useState(0)
   const [startSeconds, setStartSeconds] = useState(0)
+  const [movingShallow,setmovingShallow] = useState(false)
+
+  const [rsw, setRsw] = useState(false)
 
   var infoString = 
   `
@@ -47,8 +52,59 @@ function App() {
 
     // This is the list of words that the array will select from
     var words = `time year people way day man thing woman life child world school family student hand part place palace week company system program question work number night point home water room mother area money story fact month lot right study book eye job word business side kind head house service friend father hour game line member car city community Name team minute idea kid body information parent others level office door health person art history party result change morning reason research girl guy moment air teacher education car value gold baby food plant blue sun moon cloud trees plants electricity computer keyboard mouse book page word symbol hair ability time house water council market city land sea lake ocean sand rocks animals crab goat deer alligator bull team town nature bank paper pen marker club king voice light music field forest mountain valley peak project base love letter capital model machine fire son space plan energy hotel parkingLot meet cup box summer village park garden science picture fish bird oil film addition station window door sound glass software earth fiver sale equipment radio peace teacher culture context weight sex transport cash library phone stone dog cat memory railroad train plane sky wood granite marble winter snow rain hill wind bank museum farm cabinet fridge coffee tea bridge connection air dinner lunch breakfast fruit cantelope watermelon potato bright clear happy reach up climb progress grow accept accomplish achieved active`    
-    var allWords = words.split(" ")
     
+    
+    words = 
+    `
+    atom
+    bear
+    cockroach
+    dog
+    elephant
+    fire
+    goat
+    hose
+    igloo
+    journal
+    kangaroo
+    lizard
+    monkey
+    neon
+    octapus
+    pussyCat
+    queen
+    riot
+    snake
+    tea
+    up
+    vacuum
+    walrus
+    egg
+    sperm
+    zygote
+    `
+    words  = 
+    `
+    gum
+    shoe
+    tree
+    door
+    hive
+    kicks
+    snow
+    ate
+    vine
+    `
+
+    words = words.replaceAll('\n'," ")
+    words = words.replaceAll("  "," ")
+    words = words.replaceAll("  "," ")
+    words = words.replaceAll("  "," ")
+
+
+    var allWords = words.split(" ")
+
+
     // Create a new array and put 10 random words in it
     var newWordsArray = []
     for(var i=0; i<arrayLength; i++)
@@ -117,7 +173,7 @@ function App() {
       input = input.slice(1, input.length)    
      
     // Check the input to see if it is complete and display number correct
-    checkInputInprocess(input, array)
+    checkInputInprocess2(input, array)
 
 
   }
@@ -182,15 +238,63 @@ function App() {
     // Clear the input field and set focus on it so user can type
     document.getElementById("inputField").value = ""
     document.getElementById("inputField").focus()
-
+    
     // Display a message so user knows what to do
-    if(depth == 0)
-      displayMessage("type the "+array[indexCount].length+" words in order")
-    else
-      displayMessage("type the "+array[indexCount].length+" words in order from the list "+depth+" back")
-
+    displayMessage("type the "+array[indexCount].length+" words in order from the list "+depth+" back")    
     // Now every time input field changes inputChange() will be called
 
+  }
+  function checkInputInprocess2(input, array){
+    
+    console.log("in input inprocess 2")
+
+    // Create an array from the input words and compare it to the state array
+    var inputWordsArray = input.split(' ')    
+    var count = 0, correctCount = 0
+    inputWordsArray.forEach(word=>{
+      if(array[indexCount][count++] === word)
+      correctCount++          
+    })
+    
+    // Display the current number of correctly entered words and total entered words every time a letter is input
+    setCorrect({correct:correctCount, total:array[indexCount].length})    
+
+    // When we get to the furthest depth set a flag variable that says were on our way back
+    //  then start decrementing counter. If flag is set and we get back to top, create new array and reset flag
+
+    // if(!goingUp && inputWordsArray.length > array[indexCount].length) (if nedt depth is within bounds of array)         
+      // if in bounds
+        // go deeper
+      // else
+        // set flag and go one more shallow      
+    // else
+      // if depth != 0
+        // set flag so we know not to go into section above this
+        // go one level more shallow
+      // if depth is 0 create a new array and start reading mode
+      
+
+    // If the number of words input is greater than the number of words in the array, input is complete
+    if(inputWordsArray.length > array[indexCount].length){
+      console.log("checked array length")
+      // If (still moving deeper) and (next depth is within bounds of array and the max depth setting) we want to ask for the next deeper
+      if(!movingShallow && (indexCount+1 < array.length) && (indexCount+1 < arrayDepth))
+        // Sets the depth one deeper and starts input
+        oneDeeper()
+      // Else sart going more shallow
+      else{
+        
+        // set flag
+        setmovingShallow(true)
+
+        // If back at start, make a new array and start reading
+        if(indexCount<=0)
+          toReadingMode()
+        // Else read one more shallow
+        else
+          oneUp()
+      }                  
+    }            
   }
   function checkInputInprocess(input, array){
 
@@ -202,21 +306,33 @@ function App() {
         correct++          
       })
       
-      // When start input mode is called it clears the input field and sets a new message
-      // When input is complete it increments an array index state variable and calls start input mode again
-      // When all arrays are input array indes is reset and start reading mode is called
+      // When we get to the furthest depth set a flag variable that says were on our way back
+      //  then start decrementing counter. If flag is set and we get back to top, create new array and reset flag
+
+      // if(!goingUp && inputWordsArray.length > array[indexCount].length) (if nedt depth is within bounds of array)         
+        // if in bounds
+          // go deeper
+        // else
+          // set flag and go one more shallow      
+      // else
+        // if depth != 0
+          // set flag so we know not to go into section above this
+          // go one level more shallow
+        // if depth is 0 create a new array and start reading mode
+        
 
       // If the number of words input is greater than the number of words in the array, input is complete
       if(inputWordsArray.length > array[indexCount].length)
-        // If there is another array to get input on do that
+        
+        // If then next depth is within bounds of array and set max depth we want to ask about it
         if((indexCount+1 < array.length) && indexCount+1 < arrayDepth){
           
           // Add the current to the log          
           var tempAL = accuracyLog
-          tempAL.push("input "+correct+" of "+array[indexCount].length+" correctly at depth "+indexCount)                                      
+          tempAL.push("input "+correct.correct+" of "+array[indexCount].length+" correctly at depth "+indexCount)                                      
           setAccuracyLog(tempAL)
 
-          // Doing this before teh set state because it will probably call before state is updated if put after, but not always
+          // Doing this before the set state because it will probably call before state is updated if put after, but not always
           startInput(indexCount+1)
 
           // Go to the next depth level, then start input
@@ -227,7 +343,7 @@ function App() {
           
           // Add the current accuracy record to the log then denote the end of this section with a line          
           var tempAL = accuracyLog
-          tempAL.push("input "+correct+" of "+array[indexCount].length+" correctly at depth "+indexCount)                            
+          tempAL.push("input "+correct.correct+" of "+array[indexCount].length+" correctly at depth "+indexCount)                            
           // Pushing onto array with itteration+1 then updating state after
           tempAL.push("itteration "+(itteration+1)+" complete")     
           tempAL.push(" "+(getSeconds()-startSeconds)+" seconds since game start")
@@ -245,6 +361,61 @@ function App() {
     // Display the current number of correctly entered words and total entered words
     setCorrect({correct:correct, total:array[indexCount].length})
   }
+  function oneDeeper(){
+
+    console.log("going one deeper")
+
+    // Add the current to the log          
+    var tempAL = accuracyLog
+    tempAL.push("input "+correct.correct+" of "+array[indexCount].length+" correctly at depth "+indexCount)                                      
+    setAccuracyLog(tempAL)
+
+    // Doing this before the set state because it will probably call before state is updated if put after, but not always
+    startInput(indexCount+1)
+
+    // Go to the next depth level, then start input
+    setIndexCount(indexCount + 1)
+  }
+  function oneUp(){
+
+    console.log("going one up")
+
+    // Add the current to the log          
+    var tempAL = accuracyLog
+    tempAL.push("input "+correct.correct+" of "+array[indexCount].length+" correctly at depth "+indexCount)                                      
+    setAccuracyLog(tempAL)
+
+    // Doing this before the set state because it will probably call before state is updated if put after, but not always
+    startInput(indexCount-1)
+
+    // Go to the next depth level, then start input
+    setIndexCount(indexCount - 1)
+  }
+  function toReadingMode(){
+
+    console.log("going to reading mode")
+
+    // Add the current accuracy record to the log then denote the end of this section with a line          
+    var tempAL = accuracyLog
+    tempAL.push("input "+correct.correct+" of "+array[indexCount].length+" correctly at depth "+indexCount)                                
+    tempAL.push(" ")
+    tempAL.push(" "+(getSeconds()-startSeconds)+"seconds since game start:")
+    tempAL.push(((getSeconds()-startSeconds)/(itteration+1))+" seconds per itteration: ")     
+    tempAL.push(" ")
+    tempAL.push("itteration "+(itteration+1)+" complete")         
+    tempAL.push("____________________")  
+    setAccuracyLog(tempAL)
+    
+    // Reset the flag variable for the next itteration
+    setmovingShallow(false)
+
+    // Update the itteration state (keeps track of how many cycles have been completed)
+    setItteration(itteration+1)
+
+    // Go to the next
+    startReading()
+  }
+
   function displayResults(){
 
   }
@@ -272,176 +443,210 @@ function App() {
     var current = new Date()    
     var seconds = current.getSeconds()
     var minutes = current.getMinutes()
-    var hours = current.getMinutes()
+    var hours = current.getHours()
     var totalSeconds = (seconds)+(minutes*60)+(hours*3600)
     return totalSeconds
   }
+  function getTimeString(){
+    var current = new Date()    
+    // -startSeconds
+    return current.getHours() + ":" + current.getMinutes + ":" + current.getSeconds
+  }
   //convertString()
   function convertString(){
+//     var wordString = 
+//     `
+//     time year people way day man thing woman life child world school family student hand part place palace week company system program question work number night point home water room mother area money story fact month lot right study book eye job word business side kind head house service friend father hour game line member car city community Name team minute idea kid body information parent others level office door health person art history party result change morning reason research girl guy moment air teacher education
+
+// car
+// value
+// gold
+// baby
+// food
+// plant
+// blue
+// sun
+// moon
+// cloud
+// trees
+// plants
+// electricity
+// computer
+// keyboard 
+// mouse
+// book
+// page
+// word
+// symbol
+// hair
+// ability
+// time
+// house
+// water
+// council
+// market
+// city
+// land
+// sea
+// lake
+// ocean 
+// sand 
+// rocks
+// animals
+// crab
+// goat 
+// deer
+// aligator
+// bull
+// team
+// town
+// nature
+// bank
+// paper
+// pen
+// marker
+// club
+// king
+// voice
+// light
+// music
+// field
+// forest
+// mountain
+// valley
+// peak
+// project
+// base
+// love
+// letter
+// capital
+// model
+// machine
+// fire
+// son
+// space
+// plan
+// energy
+// hotel
+// parkingLot
+// meet
+// cup
+// box
+// summer
+// village
+// park
+// garden
+// science
+// picture
+// fish
+// bird
+// oil
+// film
+// addition
+// station
+// window
+// door
+// sound
+// glass
+// software
+// earth 
+// fiver
+// canyom
+// sale
+// equiptment
+// radio
+// peace
+// teacher
+// culture
+// context
+// weight
+// sex
+// transport
+// cash
+// library
+// phone
+// stone
+// dog
+// cat
+// memory
+// railroad
+// train
+// plane
+// sky
+// wood 
+// granite
+// marble
+// winter
+// snow
+// rain
+// hill
+// wind
+// bank
+// museum
+// farm
+// cabinet
+// fridge
+// coffee
+// tea
+// bridge
+// connection
+// air
+// dinner
+// lunch
+// breakfast
+// fruit
+// cantelope
+// watermelon
+// potato
+
+
+
+// bright
+// clear
+// happy
+
+
+// reach
+// up
+// climb
+// progress
+// grow
+// accept
+// accomplish
+// achieved
+// active
+
+
+
+//     `
     var wordString = 
     `
-    time year people way day man thing woman life child world school family student hand part place palace week company system program question work number night point home water room mother area money story fact month lot right study book eye job word business side kind head house service friend father hour game line member car city community Name team minute idea kid body information parent others level office door health person art history party result change morning reason research girl guy moment air teacher education
-
-car
-value
-gold
-baby
-food
-plant
-blue
-sun
-moon
-cloud
-trees
-plants
-electricity
-computer
-keyboard 
-mouse
-book
-page
-word
-symbol
-hair
-ability
-time
-house
-water
-council
-market
-city
-land
-sea
-lake
-ocean 
-sand 
-rocks
-animals
-crab
-goat 
-deer
-aligator
-bull
-team
-town
-nature
-bank
-paper
-pen
-marker
-club
-king
-voice
-light
-music
-field
-forest
-mountain
-valley
-peak
-project
-base
-love
-letter
-capital
-model
-machine
-fire
-son
-space
-plan
-energy
-hotel
-parkingLot
-meet
-cup
-box
-summer
-village
-park
-garden
-science
-picture
-fish
-bird
-oil
-film
-addition
-station
-window
-door
-sound
-glass
-software
-earth 
-fiver
-canyom
-sale
-equiptment
-radio
-peace
-teacher
-culture
-context
-weight
-sex
-transport
-cash
-library
-phone
-stone
-dog
-cat
-memory
-railroad
-train
-plane
-sky
-wood 
-granite
-marble
-winter
-snow
-rain
-hill
-wind
-bank
-museum
-farm
-cabinet
-fridge
-coffee
-tea
-bridge
-connection
-air
-dinner
-lunch
-breakfast
-fruit
-cantelope
-watermelon
-potato
-
-
-
-bright
-clear
-happy
-
-
-reach
-up
-climb
-progress
-grow
-accept
-accomplish
-achieved
-active
-
-
-
+    atom
+    bear
+    cockroach
+    dog
+    elephant
+    fire
+    goat
+    hose
+    igloo
+    journal
+    kangaroo
+    lizard
+    monkey
+    neon
+    octapus
+    pussyCat
+    queen
+    riot
+    snake
+    tea
+    up
+    vacuum
+    walrus
+    egg
+    sperm
+    zygote
     `
     wordString = wordString.replaceAll('\n'," ")
     wordString = wordString.replaceAll("  "," ")
@@ -459,9 +664,16 @@ active
     //})
     //console.log(wordsNoNumbers)
   }
-  
+  function openRSW(){
+    setRsw(true)
+  }
+  function closeRSW(){
+    setRsw(false)
+  }
   return (
     <div className="App">
+      {rsw && <RandomStuff close={closeRSW}></RandomStuff>}
+      <div onClick={openRSW}>Open RSW</div>
       <div className='appContainer'>                  
         {(started && !keyInput) && 
         <div className='wordDisplay'>
